@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <script src="https://kit.fontawesome.com/485ca4cdfe.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="register.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <ul>
+            <div class="left">
+                <li><a href="/home.html">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="/index2.html">Login</a></li>
+            </div>
+            <div class="right">
+                <li><a href="/registration2.html">Register</a></li>
+            </div>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>Register Here</h1>
+        <div class="box">
+            <i class="fa-solid fa-user"></i>
+            <input type="text" name="name" id="name" placeholder="Name">
+        </div>
+        <div class="box">
+            <i class="fa-solid fa-envelope"></i>
+            <input type="email" name="email" id="email" placeholder="Email address">
+        </div>
+        <div class="box">
+            <i class="fa-solid fa-key"></i>
+            <input type="password" name="password" id="password" placeholder="Create a new password">
+        </div>
+        
+        <button class="btn" onclick="register()">Register</button>
+    </div>
+
+    <footer>
+        Copyrights© www.CodingZone.com All rights reserved!
+    </footer>
+
+    <script>
+        function register() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            fetch('http://panel.mait.ac.in:8001/auth/register/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: name, email: email, password: password })
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Registration successful. Please login.');
+                    window.location.href = 'index2.html'; // Redirect to Login page
+                } else {
+                    throw new Error('Registration failed');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Registration failed. Please try again later.');
+            });
+        }
+    </script>
+</body>
+
+</html>

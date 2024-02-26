@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login to CodingZone</title>
+    <script src="https://kit.fontawesome.com/485ca4cdfe.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <ul>
+            <div class="left">
+                <li><a href="/home.html">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="/index2.html">Login</a></li>
+            </div>
+            <div class="right">
+                <li><a href="/registration2.html">Register</a></li>
+            </div>
+        </ul>
+    </nav>
+    <div class="container">
+        <h1>Login to CodingZone</h1>
+        <div class="box">
+            <i class="fa-solid fa-envelope"></i>
+            <input type="email" name="email" id="email" placeholder="Email address">
+        </div>
+        <div class="box">
+            <i class="fa-solid fa-key"></i>
+            <input type="password" name="password" id="password" placeholder="Password">
+        </div>
+        <button class="btn" onclick="login()">Log In</button>
+    </div>
+
+    <footer>
+        Copyrights© www.CodingZone.com All rights reserved!
+    </footer>
+
+    <script>
+        function login() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            // API endpoint for authentication
+            fetch('http://panel.mait.ac.in:8001/auth/login/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email: email, password: password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.access && data.refresh) {
+                    localStorage.setItem('access_token', data.access);
+                    localStorage.setItem('refresh_token', data.refresh);
+                    window.location.href = 'poem.html'; // Redirect to Dashboard page
+                } else {
+                    alert('Login failed. Please check your credentials.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again later.');
+            });
+        }
+    </script>
+</body>
+
+</html>
